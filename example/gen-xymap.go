@@ -89,7 +89,7 @@ func (xym *XYMapStringInt) Iterate(callback func(key string, value int) bool) {
 		slot := xym.storage[i]
 		if slot.Valid {
 			flag := callback(slot.Key, slot.Value)
-			if !flag {
+			if flag {
 				break
 			}
 		}
@@ -185,7 +185,7 @@ func (xym *XYMapIntInt) Iterate(callback func(key int, value int) bool) {
 		slot := xym.storage[i]
 		if slot.Valid {
 			flag := callback(slot.Key, slot.Value)
-			if !flag {
+			if flag {
 				break
 			}
 		}

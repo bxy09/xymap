@@ -60,7 +60,7 @@ func (xym *XYMapKeyTypeValueType) Delete(key KeyType) (value ValueType, existed 
 		existed = true
 		delete(xym.mapping, key)
 		xym.empty++
-		if xym.empty > 10 && float32(xym.empty) / float32(len(xym.storage)) > 0.8 {
+		if xym.empty > 10 && float32(xym.empty)/float32(len(xym.storage)) > 0.8 {
 			xym.Compress()
 		}
 		return
@@ -81,7 +81,7 @@ func (xym *XYMapKeyTypeValueType) Compress() {
 			xym.storage[wid] = slot
 		}
 	}
-	xym.storage = xym.storage[:wid + 1]
+	xym.storage = xym.storage[:wid+1]
 	xym.empty = 0
 	return
 }
@@ -92,7 +92,7 @@ func (xym *XYMapKeyTypeValueType) Iterate(callback func(key KeyType, value Value
 		slot := xym.storage[i]
 		if slot.Valid {
 			flag := callback(slot.Key, slot.Value)
-			if !flag {
+			if flag {
 				break
 			}
 		}

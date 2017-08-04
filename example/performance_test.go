@@ -75,9 +75,9 @@ func BenchmarkXYMapIter(b *testing.B) {
 	b.Run("pair", func(b *testing.B) {
 		sum := 0
 		for j := 0; j < b.N; j++ {
-			mapping.Iterate(func(i int, k int) bool {
+			mapping.Iterate(func(i int, k int) (broken bool) {
 				sum += i + k
-				return true
+				return
 			})
 		}
 		doNothing(sum)
@@ -101,7 +101,7 @@ func BenchmarkXYMapIter(b *testing.B) {
 		for j := 0; j < b.N; j++ {
 			mapping.Iterate(func(i int, k int) bool {
 				sum += i + k
-				return true
+				return false
 			})
 		}
 		doNothing(sum)
@@ -186,7 +186,7 @@ func TestIdentify(t *testing.T) {
 		}
 		mapxy.Iterate(func(k, v int) bool {
 			sumXY += k + v
-			return true
+			return false
 		})
 		assert.Equal(t, sumM, sumXY)
 		// test for several empty slot
@@ -209,7 +209,7 @@ func TestIdentify(t *testing.T) {
 		}
 		mapxy.Iterate(func(k, v int) bool {
 			sumXY += k + v
-			return true
+			return false
 		})
 		assert.Equal(t, sumM, sumXY)
 		// test for compress
@@ -230,10 +230,10 @@ func TestIdentify(t *testing.T) {
 		for i, v := range mapping {
 			sumM += i + v
 		}
-		mapxy.Iterate(func(k, v int) bool {
+		mapxy.Iterate(func(k, v int) (broken bool) {
 			sumXY += k + v
 			assert.Equal(t, v, mapping[k])
-			return true
+			return
 		})
 		assert.Equal(t, sumM, sumXY)
 		for i := 0; i < 100; i++ {
